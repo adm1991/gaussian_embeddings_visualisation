@@ -206,8 +206,8 @@ def final_differences(decade, i, word1, word2, word3, ind1, ind2):
     cov3 = sig3*np.eye(50)
     cov4 = sig4*np.eye(50)
     
-    av_var1 = np.log(scipy.linalg.det(cov1))
-    av_var2 = np.log(scipy.linalg.det(cov2))
+    log_determinant1 = np.log(scipy.linalg.det(cov1))
+    log_determinant2 = np.log(scipy.linalg.det(cov2))
 
 
         
@@ -223,7 +223,7 @@ def final_differences(decade, i, word1, word2, word3, ind1, ind2):
     cos4 = scipy.spatial.distance.cosine(mu2, mu4)
     
 
-    output_list = [js1, js2, js3, js4, cos1, cos2, cos3, cos4, av_var1, av_var2]
+    output_list = [js1, js2, js3, js4, cos1, cos2, cos3, cos4, log_determinant1, log_determinant2]
     print("OUTPUT LIST = ", output_list)
     return output_list
     
@@ -256,8 +256,8 @@ sense2_orig_cos = [[] for decade in decades]
 sense1_acquired_cos = [[] for decade in decades]
 sense2_acquired_cos = [[] for decade in decades]
 
-av_var1 = [[] for decade in decades]
-av_var2 = [[] for decade in decades]
+log_determinant1 = [[] for decade in decades]
+log_determinant2 = [[] for decade in decades]
 
 for i in directory_indexes:
     for decade in decades:
@@ -292,19 +292,10 @@ for i in directory_indexes:
         sense2_acquired_cos[index].append(output.pop(0))
 
 
-        av_var1[index].append(output.pop(0))
-        av_var2[index].append(output.pop(0))
+        log_determinant1[index].append(output.pop(0))
+        log_determinant2[index].append(output.pop(0))
 
         
-print(sense1_orig)
-print(sense1_acquired)
-print(sense2_orig)
-print(sense2_acquired)
-
-
-
-
-
 
 
 label1 = word1+'[0] '+word2
@@ -333,8 +324,8 @@ sense1_acquired_cos_mean = [sum(item) / len(item) for item in sense1_acquired_co
 sense2_orig_cos_mean = [sum(item) / len(item) for item in sense2_orig_cos]
 sense2_acquired_cos_mean = [sum(item) / len(item) for item in sense2_acquired_cos]
     
-av_var1_mean = [sum(item) / len(item) for item in av_var1]
-av_var2_mean = [sum(item) / len(item) for item in av_var2]
+log_determinant1_mean = [sum(item) / len(item) for item in log_determinant1]
+log_determinant2_mean = [sum(item) / len(item) for item in log_determinant2]
 
 df_js=pd.DataFrame({'decade': decades, 
                     label1 : sense1_orig_mean, 
@@ -353,8 +344,8 @@ df_cd=pd.DataFrame({'decade': decades,
 df_cd.set_index('decade', inplace=True, drop=True)
 
 df_ma=pd.DataFrame({'decade': decades, 
-                    label5 : av_var1_mean, 
-                    label6 : av_var2_mean })
+                    label5 : log_determinant1_mean, 
+                    label6 : log_determinant2_mean })
 df_ma.set_index('decade', inplace=True, drop=True)
 
 
