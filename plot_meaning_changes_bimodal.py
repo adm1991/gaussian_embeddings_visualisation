@@ -6,6 +6,10 @@ import seaborn as sns
 from sklearn.decomposition import TruncatedSVD
 from scipy.spatial.distance import cosine
 
+from word2gm_loader import Word2GM
+from quantitative_eval import *
+
+
 
 
 
